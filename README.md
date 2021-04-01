@@ -12,22 +12,19 @@ In 1983, a sixteen year old programmer **Robert Jaeger** (who by now has written
 
 ### Remaking of Montezuma's Revenge
 #### Player
-One of the first steps in remaking Montezuma’s revenge was to make my character. While in the original, the character is called Panama Joe, or Pedro, and wore a Sombrero hat, I decided to go with a less racially-charged character design, settling on a character that resembled a cartoon „thief” or pirate: wearing a dark purple bandana with a grey shirt and blue pants. After animating the character, I then handled the player movement. To do that, I 
+One of the first steps in remaking Montezuma’s revenge was to make my character. While in the original, the character is called Panama Joe, or Pedro, and wore a Sombrero hat, I decided to go with a less racially-charged character design, settling on a character that resembled a cartoon „thief” or pirate: wearing a dark purple bandana with a grey shirt and blue pants. After animating the character, I then handled the player movement. To do that, I create a Player "object", which in reality is a list of variables:
 
 ```lua
 Plr={
 	lives=5,
 	x=20,y=70,
 	vx=0,vy=0,
-	grounded=true,
-	punch=false,
-	climb=false,
-	damaged=false,
+	(...)
 	Rkeys=0,
 	Pkeys=0,
 	points=0,
 	jump=false
 }
 ```
-
+Here, I store the information 
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
