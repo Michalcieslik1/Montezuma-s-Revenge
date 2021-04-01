@@ -44,14 +44,16 @@ function updatePlayer()
 		Plr.vy=-2.7
 	end
 	
-	-- Other code...
+	-- Code Handling Collisions
 	
 	--Update Player Position
 	Plr.x=Plr.x+Plr.vx
  	Plr.y=Plr.y+Plr.vy
 end
 ```
-When the player presses a specific button, a request is made to move, 
+When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to Plr.vx or Plr.vy, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function solid(x,y) to check whether the tile at said coordinates is solid or not. 
+
+#### Designing the Reusable Level Creator
 
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
