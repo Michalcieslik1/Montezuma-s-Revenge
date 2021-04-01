@@ -12,7 +12,7 @@ In 1983, a sixteen year old programmer **Robert Jaeger** (who by now has written
 
 ## Remaking of Montezuma's Revenge
 ### Player
-One of the first steps in remaking Montezuma’s revenge was to make my character. While in the original, the character is called **Panama Joe**, or **Pedro**, and wore a Sombrero hat, I decided to go with a less racially-charged character design, settling on a character that resembled a cartoon „thief” or pirate: wearing a dark purple bandana with a grey shirt and blue pants. After animating the character, I then handled the player movement. To do that, I create a Player "object", which in reality is a list of variables, where I store all the necessary information about the player's state:
+One of the first steps in remaking Montezuma’s revenge was to make my character. While in the original, the character is called **Panama Joe**, or **Pedro**, wore a Sombrero hat, and traversed an undiscovered Aztec temple to steal its treasures, I decided to go with a concept and character design that did not rely on harmful racist stereotypes. I decided to make my character traverse an abandoned castle, and resemble a cartoon „thief” or pirate: wearing a dark purple bandana with a grey shirt and blue pants. After animating the character, I then handled the player movement. To do that, I create a Player "object", which in reality is a list of variables that store all the necessary information about the player's state:
 
 ```lua
 Plr={
@@ -27,7 +27,10 @@ Plr={
 	points=0
 }
 ```
-While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the `x`,`y`, and `vx` and `vy` state indicators are less intuitive. To update the player’s position, or the `Plr.x` and `Plr.y` state indicators, I use the function `updatePlayer()` to detect any user inputs, and update the player’s position accordingly:
+While both the lives, the points and the red and purple key state indicators are self-explanatory, the `x`,`y`, and `vx` and `vy` state indicators are less intuitive. 
+
+#### Player Movement
+To update the player’s position, or the `Plr.x` and `Plr.y` state indicators, I use the function `updatePlayer()` to detect any user inputs, and update the player’s position accordingly. 
 
 ```lua
 function updatePlayer()
@@ -51,10 +54,19 @@ function updatePlayer()
  	Plr.y=Plr.y+Plr.vy
 end
 ```
-When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to `Plr.vx` or `Plr.vy`, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function `solid(x,y)` to check whether the tile at said coordinates is solid or not. 
+`updatePlayer()` splits player movement into three distinct stages: the request for movement from the player, the vetting of said request, and subsequent updating of the player's position. When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to `Plr.vx` or `Plr.vy`, which is the corresponding displacement of the player; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use a multitude of functions, one example being `solid(x,y)` to check whether the tile at said coordinates is solid or not:
+```lua
+function solid(x,y)
+	--Get the current tile number
+	tile=mget((x)//8+levelToX(Game.levelNo),((y))//8+levelToY(Game.levelNo))
+	--Return true if the tile is supposed to be solid, and false if it's not
+	return tile<30  or tile==136 or tile==138
+end
+```
+This is determined by using `mget(x,y)`, which returns the tile ID at the specified coordinates. After the request for movement is processed, the player position is updated accordingly. This system allows for a very universal approach to collision handling, with both entities and the player abiding by the exact same rules. It allows the entities to work in almost the exact same way as the player, and makes making specific tiles act in certain ways a lot simpler.
 
 ### Entities and the Map
-To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function `initialEntityScan()`, which scans every tile on the current map, saves each tile that has an ID above a certain number in an array called `ENTITY`, and then overrides the tile taken with `mset()`. An entity in the `ENTITY` array is saved in the following format: 
+To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function `initialEntityScan()`, which scans every tile on the current map, saves each tile that has an ID above a certain number in an array called `ENTITY`, and then overrides the tile taken with a background tile using `mset()`. An entity in the `ENTITY` array is saved in the following format: 
 ```lua
 ENTITY[i][spriteNum,x,y,alive,levelNo,xdirection]
 ```
