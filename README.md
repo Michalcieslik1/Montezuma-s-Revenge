@@ -4,6 +4,21 @@
 	Metroidvania, which comes from the combination of the titles of two most influential and emblematic games of said format, namely Metroid and Castlevania: Symphony of the Night, is genre of games that is usually a 2D platformer with one continuous map, a large emphasis on exploration, puzzle solving, as well as a system of locks and keys which through the player slowly gains access to a larger percentage of the map. The system of locks and keys can be, although does not have to be literal; player’s progress can be blocked by a literal door with a key needed to open it, but it can also be a ledge that’s too high to climb that requires the player to gain a specific ability, or any other limitation of the sort. Although a Metroidvania does not have to have all said qualities to be a Metroidvania, Montezuma’s revenge has all of them present; the game’s main concept is the exploration of a 16th century Aztec temple of emperor Montezuma II filled with puzzles, obstacles such as closed doors or enemies, and a continuous map that is revealed to the player as they explore it. The player has a set amount of lives, and when the player dies, they have to start from scratch. There are many pickups available for the player such as health pickups, or points, which slowly open up the temple to the player.
 	One of the first steps in remaking Montezuma’s revenge was to make my character. While in the original, the character is called Panama Joe, or Pedro, and wore a Sombrero hat, I decided to go with a less racially-charged character design, settling on a character that resembled a cartoon „thief” or pirate: wearing a dark purple bandana with a grey shirt and blue pants. After animating the character, I then handled the player movement. 
 
+Plr = {
+    lives = 5,
+    x = 20,
+    y = 70,
+    vx = 0,
+    vy = 0,
+    grounded = true,
+    punch = false,
+    climb = false,
+    damaged = false,
+    Rkeys = 0,
+    Pkeys = 0,
+    points = 0,
+    jump = false
+}
 
 
 
