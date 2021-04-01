@@ -58,6 +58,8 @@ To make the level creation simple, I wanted to make a system which would handle 
 ```lua
 ENTITY[i][spriteNum,x,y,alive,levelNo,xdirection]
 ```
+...where the spriteNum is the sprrite number of the entity, x and y are the current position, alive is the boolean flag that determines whether the entity exists and levelNo is the level at which the entity is rendered in.
+
 From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
 ```lua
 function updateEntities()
@@ -81,24 +83,25 @@ function updateEntities()
 					--Handling Position and Animation
 					updateEnemy(i)
 				end
-			else
-				--Handle Item Pickup and Display
+			--Handle Item Pickup and Display of Pickup
+			else 
 				if ENTITY[i][4]>0 then
 					if xField and yField then
 						if playerPickup(ENTITY[i][1]) then
 							ENTITY[i][4]=0
 						end
 					end
-					if ENTITY[i][1]==149 then
-						spr(ENTITY[i][1],entityX,entityY,0,1,0,0,1,2)
-					else
-						spr(ENTITY[i][1],entityX,entityY,0)
-					end
+					
+					--Display
+					spr(ENTITY[i][1],entityX,entityY,0)
 				end
 			end
 		end
 	end
 end
 ```
+Enemy movement is handled in the updateEnemy(i) function, which does the exact same thing that updatePlayer() did, except instead of player input, a loop of pre-made movement is played over and over.
+
+By handing things this way, I was able to 
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
