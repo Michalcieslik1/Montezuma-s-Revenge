@@ -1,4 +1,4 @@
-# Montezuma-s-Revenge
+# Montezuma's Revenge
 
 ### Atari 2600
 
@@ -58,7 +58,7 @@ To make the level creation simple, I wanted to make a system which would handle 
 ```lua
 ENTITY[i][spriteNum,x,y,alive,levelNo,xdirection]
 ```
-...where the spriteNum is the sprrite number of the entity, x and y are the current position, alive is the boolean flag that determines whether the entity exists and levelNo is the level at which the entity is rendered in.
+...where the spriteNum is the sprrite number of the entity, x and y are the current position, alive is the boolean flag that determines whether the entity exists and levelNo is the level at which the entity is rendered in. While 
 
 From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
 ```lua
@@ -100,7 +100,7 @@ function updateEntities()
 	end
 end
 ```
-Enemy movement is handled in the updateEnemy(i) function, which does the exact same thing that updatePlayer() did, except instead of player input, a loop of pre-made movement is played over and over.
+Enemy movement is handled in the updateEnemy(i) function, which does the exact same thing that updatePlayer() did, except instead of player input, a loop of pre-made movement is played over and over, and the pickups react in preset ways to player interaction. 
 
 By handing things this way, I was able to design my levels purely through the Map interface, which then later was scanned and updated according to preset rules assigned to the specific tile IDs. This simplified the process, and made the level design process completely not connected to writing any code; I was able to not touch any of my code for the majority of the level design process.
 
