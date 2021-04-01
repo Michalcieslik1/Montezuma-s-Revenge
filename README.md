@@ -27,7 +27,7 @@ Plr={
 	points=0
 }
 ```
-While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the x,y, and vx and vy state indicators are less intuitive. To update the player’s position, or the x and y state indicators, I use the function updatePlayer() to detect any user inputs, and update the player’s position accordingly:
+While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the x,y, and vx and vy state indicators are less intuitive. To update the player’s position, or the x and y state indicators, I use the function `updatePlayer()` to detect any user inputs, and update the player’s position accordingly:
 
 ```lua
 function updatePlayer()
@@ -51,16 +51,19 @@ function updatePlayer()
  	Plr.y=Plr.y+Plr.vy
 end
 ```
-When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to Plr.vx or Plr.vy, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function solid(x,y) to check whether the tile at said coordinates is solid or not. 
+When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to `Plr.vx` or `Plr.vy`, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function `solid(x,y)` to check whether the tile at said coordinates is solid or not. 
 
 #### Entities and the Map
-To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function initialEntityScan(), which scans every tile on the current map, and saves each tile that has an ID above a certain number in an array called ENTITY. An entity in the ENTITY array is saved in the following format: 
+To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function `initialEntityScan()`, which scans every tile on the current map, and saves each tile that has an ID above a certain number in an array called `ENTITY`. An entity in the `ENTITY` array is saved in the following format: 
 ```lua
 ENTITY[i][spriteNum,x,y,alive,levelNo,xdirection]
 ```
-...where the spriteNum is the sprrite number of the entity, x and y are the current position, alive is the boolean flag that determines whether the entity exists and levelNo is the level at which the entity is rendered in. While 
+...where the `spriteNum` is the sprrite number of the entity, `x` and `y` are the current position, `alive` is the boolean flag that determines whether the entity exists and `levelNo` is the level at which the entity is rendered in. To understand what is and what isn't considered an entity, it's best to understand all the different types of tiles present in the game. While the tiles 0 through 30 have an effect on the player, they are not considered to be entities, rather they are the **solid** tiles. Tiles with the ID 32, which are ladders, tiles between 48 and 111 are not treated as entities either, rather they are considered to be non-solid tiles which don't affect the player in any way. Lastly, tiles between 112 and 149 are considered to be entities, with tiles from 112 to 123 being moving enemies,
+tiles from 128 to 135 being stationary enemies, or tiles from 144 to 149 being pickable entities, which upon the interaction with a player dissapear and change the state of the player (add points, add health etc...). The tile that is most confusing, and incorporates almost all the aspects of the tiles is the door tile.
 
-From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
+Doors in my implementation 
+
+From there, the function `updateEntities()` goes through every item in `ENTITY` and handles the specified behavior of each entity based on its tile ID:
 ```lua
 function updateEntities()
 	for i in pairs(ENTITY)do
@@ -100,7 +103,7 @@ function updateEntities()
 	end
 end
 ```
-Enemy movement is handled in the updateEnemy(i) function, which does the exact same thing that updatePlayer() did, except instead of player input, a loop of pre-made movement is played over and over, and the pickups react in preset ways to player interaction. 
+Enemy movement is handled in the `updateEnemy(i)` function, which does the exact same thing that `updatePlayer()` did, except instead of player input, a loop of pre-made movement is played over and over, and the pickups react in preset ways to player interaction. 
 
 By handing things this way, I was able to design my levels purely through the Map interface, which then later was scanned and updated according to preset rules assigned to the specific tile IDs. This simplified the process, and made the level design process completely not connected to writing any code; I was able to not touch any of my code for the majority of the level design process.
 
