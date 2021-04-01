@@ -1,4 +1,3 @@
-<img width="553" alt="Zrzut ekranu 2021-04-1 o 1 29 38 AM" src="https://user-images.githubusercontent.com/60623457/113247836-c9dfe300-9289-11eb-9070-79be9b97272a.png">
 # Montezuma's Revenge
 
 ### Atari 2600
@@ -107,7 +106,7 @@ By handing things this way, I was able to design my levels purely through the Ma
 
 #### What is an entity?
 To understand what is and what isn't considered an entity, it's best to understand all the different types of tiles present in the game. While the tiles 0 through 30 have an effect on the player, they are not considered to be entities, rather they are the **solid** tiles. Tiles with the ID 32, which are ladders, tiles between 48 and 111 are not treated as entities either, rather they are considered to be non-solid tiles which don't affect the player in any way. Lastly, tiles between 112 and 149 are considered to be entities, with tiles from 112 to 123 being moving enemies, tiles from 128 to 135 being stationary enemies, or tiles from 144 to 149 being pickable entities, which upon the interaction with a player dissapear and change the state of the player (add points, add health etc...). The tile that is most confusing, and incorporates almost all the aspects of the tiles is the door tile.
-
+<img width="553" alt="Zrzut ekranu 2021-04-1 o 1 29 38 AM" src="https://user-images.githubusercontent.com/60623457/113247836-c9dfe300-9289-11eb-9070-79be9b97272a.png">
 Doors in my implementation are considered entities, but they are also solid objects that interact both with the player and other tiles on the screen. The closed door tile (either 136 or 138) does three things: it acts as a solid tile if any entity or player tries to pass through, it switches from closed to open if a player touches it, has a correct key, and presses z, and it switches from closed to open if a tile above or below it is the open door tile (137). That way, when the door is closed, the player nor any entities cannot pass, but when the player opens any of the tiles in the number of tiles that the door is made out of, the entire door opens permanently. This is done with `mset()`, and the door tile is permanently opened.
 
 #### Entity Animation
