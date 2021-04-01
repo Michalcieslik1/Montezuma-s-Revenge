@@ -27,7 +27,7 @@ Plr={
 	points=0
 }
 ```
-While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the x,y, and vx and vy state indicators are less intuitive. To update the player’s position, or the x and y state indicators, I use the function `updatePlayer()` to detect any user inputs, and update the player’s position accordingly:
+While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the `x`,`y`, and `vx` and `vy` state indicators are less intuitive. To update the player’s position, or the `Plr.x` and `Plr.y` state indicators, I use the function `updatePlayer()` to detect any user inputs, and update the player’s position accordingly:
 
 ```lua
 function updatePlayer()
@@ -111,7 +111,7 @@ Doors in my implementation are considered entities, but they are also solid obje
 
 #### Entity Animation
 The animation is done by a few separate functions: player animations are done through the `playerSprite()` function, which returns the correct sprite ID to display on the screen which the function `render()` actually handles, while the entity animations are done through `updateEnemy()`, which use a number of helper functions to display the correct sprite in the correct place. Consider the function `animateEnemySpike(i,x,y)`, which handles the stationary spike enemy:
-``lua
+```lua
 function animateEnemySpike(i,x,y)
 	spriteNo=ENTITY[i][1]
 	if spikeMovement() then
@@ -125,7 +125,7 @@ function animateEnemySpike(i,x,y)
 	end
 	spr(spriteNo,x,y,0)
 end
-``
+```
 The function takes in an `x` and `y` value, which are the current x and y positions of the entity, and `i`, which is the index of the specific entity in the `ENTITY` array. The function then checks if `spriteNo` is even, which would mean that the sprite displayed is the first sprite in the animation, saves the current sprite in the `ENTITY` array, and then displays the sprite at the specific coordinates with the updated sprite number. The `spikeMovement()` function is a timer function that every time a specific time interval goes by returns true, making the movement happen in even intervals.
 
 #### Level Design
