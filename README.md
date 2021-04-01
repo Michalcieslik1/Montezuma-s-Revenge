@@ -54,7 +54,9 @@ end
 When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to Plr.vx or Plr.vy, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function solid(x,y) to check whether the tile at said coordinates is solid or not. 
 
 #### Entities and the Map
-To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function initialEntityScan(), which scans every tile on the current map, and saves each tile that has an ID above a certain number in an array called ENTITY. From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
+To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function initialEntityScan(), which scans every tile on the current map, and saves each tile that has an ID above a certain number in an array called ENTITY. An entity in the ENTITY array is saved in the following format: [spriteNum, x, y, alive,levelNo,xdirection]
+
+From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
 ```lua
 function updateEntities()
 	for i in pairs(ENTITY)do
