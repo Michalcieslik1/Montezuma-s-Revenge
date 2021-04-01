@@ -53,7 +53,48 @@ end
 ```
 When the player presses a specific button, instead of immediately moving the player there, a request to move in that direction is made by the function setting a specific value to Plr.vx or Plr.vy, which is the corresponding displacement of the player requested; if either the left or right button is pressed, the displacement is set to -1 or 1 respectively, which corresponds to the movement of the character to the right or left, while if the up button is pressed, the player's displacement on the y axis is set to -2.7. The request is then vetted by a string of collision-handling if statements which use the function solid(x,y) to check whether the tile at said coordinates is solid or not. 
 
-#### Designing the Reusable Level Creator
-
+#### Entities and the Map
+To make the level creation simple, I wanted to make a system which would handle all the entity behaviors for me behind the scenes while I focus purely on level design. To do that, I wrote the function initialEntityScan(), which scans every tile on the current map, and saves each tile that has an ID above a certain number in an array called ENTITY. From there, the function updateEntities() goes through every item in ENTITY and handles the specified behavior of each entity based on its tile ID:
+```lua
+function updateEntities()
+	for i in pairs(ENTITY)do
+		if ENTITY[i][5]==Game.levelNo then
+			--Calculate (x,y) positions of entities
+			entityX=(ENTITY[i][2]-levelToX(Game.levelNo))*8
+			entityY=(ENTITY[i][3]-levelToY(Game.levelNo))*8
+			--Check whether player intercepts the entity
+			xField=Plr.x>=entityX-4 and Plr.x<=entityX+4 
+			yField=Plr.y>=entityY-4 and Plr.y<=entityY+4
+			if ENTITY[i][1]==149 then yField=Plr.y>=entityY-4 and Plr.y<=entityY+12 end
+		
+			--Handling Enemies
+			if ENTITY[i][1]<=138 then
+				if ENTITY[i][4]>0 then
+					--Handling Player Interaction
+					if xField and yField and ENTITY[i][1]<=134 then
+						damagePlayer(1)
+					end
+					--Handling Position and Animation
+					updateEnemy(i)
+				end
+			else
+				--Handle Item Pickup and Display
+				if ENTITY[i][4]>0 then
+					if xField and yField then
+						if playerPickup(ENTITY[i][1]) then
+							ENTITY[i][4]=0
+						end
+					end
+					if ENTITY[i][1]==149 then
+						spr(ENTITY[i][1],entityX,entityY,0,1,0,0,1,2)
+					else
+						spr(ENTITY[i][1],entityX,entityY,0)
+					end
+				end
+			end
+		end
+	end
+end
+```
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
