@@ -100,7 +100,7 @@ function updateEntities()
 	end
 end
 ```
-Enemy movement is handled in the `updateEnemy(i)` function, which does the exact same thing that `updatePlayer()` did, except instead of player input, a loop of pre-made movement is played over and over, and the pickups react in preset ways to player interaction. 
+Enemy movement is handled in the `updateEnemy(i)` function, which does the exact same thing that `updatePlayer()` did, except instead of player input, a loop of pre-made movement is played over and over, and the pickups react in preset ways to player interaction. All of the items in the `ENTITY` array are then put through this function in order to update each entity one by one.
 
 By handing things this way, I was able to design my levels purely through the Map interface, which then later was scanned and updated according to preset rules assigned to the specific tile IDs. This simplified the process, and made the level design process completely not connected to writing any code; I was able to not touch any of my code for the majority of the level design process.
 
@@ -108,6 +108,25 @@ By handing things this way, I was able to design my levels purely through the Ma
 To understand what is and what isn't considered an entity, it's best to understand all the different types of tiles present in the game. While the tiles 0 through 30 have an effect on the player, they are not considered to be entities, rather they are the **solid** tiles. Tiles with the ID 32, which are ladders, tiles between 48 and 111 are not treated as entities either, rather they are considered to be non-solid tiles which don't affect the player in any way. Lastly, tiles between 112 and 149 are considered to be entities, with tiles from 112 to 123 being moving enemies, tiles from 128 to 135 being stationary enemies, or tiles from 144 to 149 being pickable entities, which upon the interaction with a player dissapear and change the state of the player (add points, add health etc...). The tile that is most confusing, and incorporates almost all the aspects of the tiles is the door tile.
 
 Doors in my implementation are considered entities, but they are also solid objects that interact both with the player and other tiles on the screen. The closed door tile (either 136 or 138) does three things: it acts as a solid tile if any entity or player tries to pass through, it switches from closed to open if a player touches it, has a correct key, and presses z, and it switches from closed to open if a tile above or below it is the open door tile (137). That way, when the door is closed, the player nor any entities cannot pass, but when the player opens any of the tiles in the number of tiles that the door is made out of, the entire door opens permanently. This is done with `mset()`, and the door tile is permanently opened.
+
+#### Entity Animation
+The animation is done by a few separate functions: player animations are done through the `playerSprite()` function, which returns the correct sprite ID to display on the screen which the function `render()` actually handles, while the entity animations are done through `updateEnemy()`, which use a number of helper functions to display the correct sprite in the correct place. Consider the function `animateEnemySpike(i,x,y)`, which handles the stationary spike enemy:
+``lua
+function animateEnemySpike(i,x,y)
+	spriteNo=ENTITY[i][1]
+	if spikeMovement() then
+		if spriteNo%2==0then 
+			spriteNo=spriteNo+1
+		 ENTITY[i][1]=spriteNo
+		else
+			spriteNo=spriteNo-1
+		 ENTITY[i][1]=spriteNo
+		end
+	end
+	spr(spriteNo,x,y,0)
+end
+``
+The function takes in an `x` and `y` value, which are the current x and y positions of the entity, and `i`, which is the index of the specific entity in the `ENTITY` array. The function then checks if `spriteNo` is even, which would mean that the sprite displayed is the first sprite in the animation, saves the current sprite in the `ENTITY` array, and then displays the sprite at the specific coordinates with the updated sprite number. The `spikeMovement()` function is a timer function that every time a specific time interval goes by returns true, making the movement happen in even intervals.
 
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the **stone area**, which is both what the starting area, which focuses on introducing the main concepts of the game to the player, and the maze area looks like, which focuses on the exploration through mazes as well as some light platforming using ladders, the **„red” or fire area**, which focuses on lasers which turn off and on which the player needs to avoid, and the **„green” or plant area**, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. While the original game focused on exploration down, with the player constantly descending deeper and deeper into the depths of the temple, I wanted to diversify my version; I made the fire area make the player move downwards, becoming harder and filled with more fire as the player descended, the green area climbing upwards, and then asking the player to fall down large distances, while the maze area was more ambiguous at first but at the end required the player to climb out of the complex maze upward. I also tried to keep the levels as connected as possible, never giving the player only one path to go down in order to not loose the original feeling of being lost and wandering though the unwelcome environment I wanted to emulate.
