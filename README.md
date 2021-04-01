@@ -51,6 +51,7 @@ function updatePlayer()
  	Plr.y=Plr.y+Plr.vy
 end
 ```
+When the player presses a specific button, a request is made to move, 
 
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
