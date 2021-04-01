@@ -70,7 +70,7 @@ To make the level creation simple, I wanted to make a system which would handle 
 ```lua
 ENTITY[i][spriteNum,x,y,alive,levelNo,xdirection]
 ```
-...where the `spriteNum` is the sprrite number of the entity, `x` and `y` are the current position, `alive` is the boolean flag that determines whether the entity exists and `levelNo` is the level at which the entity is rendered in. 
+...where the `spriteNum` is the sprite number of the entity, `x` and `y` are the current position, `alive` is the boolean flag that determines whether the entity exists and `levelNo` is the level at which the entity is rendered in. 
 
 From there, the function `updateEntities()` goes through every item in `ENTITY` and handles the specified behavior of each entity based on its tile ID:
 ```lua
