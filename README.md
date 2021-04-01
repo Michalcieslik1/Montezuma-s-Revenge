@@ -1,3 +1,4 @@
+<img width="553" alt="Zrzut ekranu 2021-04-1 o 1 29 38 AM" src="https://user-images.githubusercontent.com/60623457/113247836-c9dfe300-9289-11eb-9070-79be9b97272a.png">
 # Montezuma's Revenge
 
 ### Atari 2600
