@@ -27,7 +27,30 @@ Plr={
 	points=0
 }
 ```
+While both the lives as well as the points and the red and purple key state indicators are self-explanatory, the x,y, and vx and vy state indicators are less intuitive. To update the player’s position, or the x and y state indicators, I use the function updatePlayer() to detect any user inputs, and update the player’s position accordingly:
 
+```lua
+function updatePlayer()
+	--Player Input
+	if btn(2) and not Plr.damaged then 
+		Plr.vx=-1
+	elseif btn(3) and not Plr.damaged then 
+		Plr.vx=1
+ 	else 
+		Plr.vx=0 
+	end
+	
+	if btn(0) and Plr.vy==0 and Plr.grounded then 
+		Plr.vy=-2.7
+	end
+	
+	-- Other code...
+	
+	--Update Player Position
+	Plr.x=Plr.x+Plr.vx
+ 	Plr.y=Plr.y+Plr.vy
+end
+```
 
 #### Level Design
 In remaking this game, I wanted to emulate the feeling of being lost that the original game instilled in players; it was an unforgiving game that forced you to replay it multiple times to make progress. To do that, I decided to make the game have 3 distinctive areas: the stone area, which is both what the starting area looks like, which focuses on introducing the main concepts of the game to the player, and the maze area, which focuses on the exploration through mazes as well as some light platforming using ladders, the „red” or fire area, which focuses on lasers which turn off and on which the player needs to avoid, and the „green”, or plant area, which focuses on platforming, both on regular platforms and platforms that move the player to one direction, as well as finding the path that a player can jump through or fall on. 
